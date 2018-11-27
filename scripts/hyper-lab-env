@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# HyperLedger Fabric Samples
+git clone https://github.com/hyperledger/fabric-samples.git
+cd fabric-samples
+sudo ./scripts/bootstrap.sh
+cd ~/fabric-samples/first-network
+sudo ./byfn.sh generate 
+sudo ./byfn.sh up

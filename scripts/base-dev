@@ -1,0 +1,84 @@
+#!/bin/bash
+
+VIMRUNTIME='~/.vim_runtime'
+
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt update
+sudo apt upgrade
+
+sudo apt install -y tmux
+sudo apt install software-properties-common -y
+sudo apt install apt-transport-https -y
+
+sudo apt install -y git
+sudo apt-get install build-essential -y
+
+# Make sure most recent version of Vim is installed
+sudo add-apt-repository ppa:jonathonf/vim
+sudo apt update
+sudo apt install vim -y
+
+
+# Install Vim and Tmux Base Config
+
+git clone --depth=1 https://github.com/amix/vimrc.git ~/.vim_runtime
+
+sh ~/.vim_runtime/install_awesome_vimrc.sh
+
+# Add custom config items
+cd $VIMRUNTIME
+printf "set number\nset autoindent\nset noexpandtab\nset tabstop=4\nset shiftwidth=4" > my_configs.vim
+
+# Add Vim Plugins 
+git clone https://github.com/ekalinin/Dockerfile.vim.git $VIMRUNTIME/my_plugins/Dockerfile.vim 
+
+cd
+
+# Load tmux.config
+git clone https://github.com/gpakosz/.tmux.git 
+ln -s -f .tmux/.tmux.conf
+cp .tmux/.tmux.conf.local .
+
+# Docker and Docker-Compose Setup
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+sudo apt-get update
+
+sudo apt-get install -y docker-ce
+
+# Add user to Docker User Group
+sudo usermod -aG docker ${USER}
+
+# Docker Compose Installation
+sudo curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+
+sudo chmod +x /usr/local/bin/docker-compose
+
+# Install Recent Copy of NodeJS
+cd
+curl -sL https://deb.nodesource.com/setup_8.x -o nodesource_setup.sh
+sudo bash nodesource_setup.sh
+
+sudo apt-get install nodejs -y
+cd 
+rm nodesource_setup.sh
+
+
+# Install Golang
+wget https://dl.google.com/go/go1.10.3.linux-amd64.tar.gz
+
+sudo tar -C /usr/local -xzf go1.10.3.linux-amd64.tar.gz
+rm go1.10.3.linux-amd64.tar.gz
+
+echo 'export PATH=$PATH:/usr/local/go/bin' >> .profile
+source ~/.profile
+
+cd 
+
+mkdir -p go/src/hello
+touch go/src/hello/hello.go
+
+
+# Python Verification 2.7
+sudo apt-get install python

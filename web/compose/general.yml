@@ -1,0 +1,17 @@
+version: '3'
+services:
+    api:
+        build:
+            dockerfile: Dockerfile 
+            context: ../../images/api
+    web-app:
+        build:
+            dockerfile: Dockerfile 
+            context: ../../images/web-app
+    proxy:
+        restart: always
+        build:
+            dockerfile: Dockerfile 
+            context: ../../images/nginx
+        ports:
+            - '3050:8080'

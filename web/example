@@ -8,10 +8,16 @@ version: '3'
 #   environment: 'Optional, same as -e in docker run'
 #   volumes: 'Optional, same as -v in docker run'
 #   // Services Level 
-#   volumes: 'Optional, same as docker volume create'
+#   volumes: 'Optional, same as docker volume create' **creates persisted volumes that can be shared between containers**
 #   networks: 'Optional, same as docker network create'
 # }
 services:
     proxy:
         image:
+    web-app:
+        image:
+        voulumes:
+            - .:/app
+        ports:
+            - '8081:8080'
 
