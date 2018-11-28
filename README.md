@@ -1,3 +1,4 @@
+```
 version: '3'
 
 # Docker Compose breakes containers down to individual
@@ -21,3 +22,5 @@ services:
         ports:
             - '8081:8080'
 
+
+```
