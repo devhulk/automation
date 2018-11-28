@@ -5,18 +5,18 @@ services:
         user: 'node'
         working_dir: /home/node/app
         volumes:
-            - ../../images/api:/home/node/app
+            - ../../apps/api:/home/node/app
         command: 'npm start'
     web-app:
         build:
             dockerfile: Dockerfile 
-            context: ../../images/web-app
+            context: ../../apps/web-app
         expose:
             - '80'
     proxy:
         restart: always
         build:
             dockerfile: Dockerfile 
-            context: ../../images/nginx
+            context: ../../apps/nginx
         ports:
             - '3050:80'
